@@ -47,7 +47,7 @@ namespace WebStore
                 //endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllerRoute(
                     "default",
-                   "{controller = Home}/{action = Index}/{id?}");
+                   "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
