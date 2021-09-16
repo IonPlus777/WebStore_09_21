@@ -14,7 +14,6 @@ namespace WebStore
         public static void Main(string[] args)
         {
 
-            //CreateHostBuilder(args).Build().Run();
             var host_builder = CreateHostBuilder(args);
             var host = host_builder.Build();
             host.Run();
@@ -25,9 +24,5 @@ namespace WebStore
             .ConfigureWebHostDefaults(host => host
                 .UseStartup<Startup>()
             );
-        //.ConfigureWebHostDefaults(webBuilder =>
-        //{
-        //    webBuilder.UseStartup<Startup>();
-        //});
     }
 }
