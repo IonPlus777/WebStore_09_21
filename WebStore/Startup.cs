@@ -33,7 +33,8 @@ namespace WebStore
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //app.UseStaticFiles(new StaticFileOptions());
+            app.UseStaticFiles();
             app.UseRouting();
 
             //var logging = Configuration["Logging :LogLevel"];
