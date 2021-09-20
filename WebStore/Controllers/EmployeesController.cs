@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Data;
 using WebStore.Models;
 
 namespace WebStore.Controllers
@@ -10,12 +11,13 @@ namespace WebStore.Controllers
     
     public class EmployeesController : Controller
     {
-        private static readonly List<Employee> _Employees = new()
+        private readonly IEnumerable<Employee> _Employees;
+
+        public EmployeesController()
         {
-            new Employee { Id = 1, FirstName = "Петр", LastName = "Петров", Patronymic = "Петрович", Age = 31 },
-            new Employee { Id = 2, FirstName = "Иван", LastName = "Иванов", Patronymic = "Иванович", Age = 32 },
-            new Employee { Id = 3, FirstName = "Сидор", LastName = "Сидоров", Patronymic = "Сидорович", Age = 36 }
-        };
+            _Employees = TestData.Employees;
+        }
+        
         public IActionResult Index()
         {
             return View(_Employees);
