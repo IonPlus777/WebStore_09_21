@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Data;
 using WebStore.Models;
+using WebStore.Services.Interfaces;
 
 namespace WebStore.Controllers
 {
@@ -12,33 +14,36 @@ namespace WebStore.Controllers
     //[Route("Staff/[action]/{id?}")]
     public class EmployeesController : Controller
     {
-        private readonly IEnumerable<Employee> _Employees;
+        //private readonly IEnumerable<Employee> _Employees;
+        private readonly IEmployeesData _EmployeesData;
+        private readonly ILogger<EmployeesController> _Logger;
 
-        public EmployeesController()
+        public EmployeesController(IEmployeesData EmployeesData,ILogger<EmployeesController> Logger)
         {
-            _Employees = TestData.Employees;
+            _EmployeesData = EmployeesData;
+            _Logger = Logger;
         }
         //[Route("~/employees/all")]
         public IActionResult Index()
         {
-            return View(_Employees);
+            return View(_EmployeesData.GetAll());
         }
         //[Route("~/employees/info[[{id}]]")]
         //[Route("~/employees/info={id}")]
         public IActionResult Details(int id)
         {
             //var employee = _Employees.FirstOrDefault(e => e.Id == id);
-            var employee = _Employees.SingleOrDefault(e => e.Id == id);
+            var employee = _EmployeesData.GetById(id);
 
             if (employee is null)
                 return NotFound();
 
             return View(employee);
         }
-        public IActionResult TestAction(string Parameter1,int Param2)
-        {
-            return Content($"P1:{Parameter1} -P2{Param2}");
-        }
+        //public IActionResult TestAction(string Parameter1,int Param2)
+        //{
+        //    return Content($"P1:{Parameter1} -P2{Param2}");
+        //}
     }
 
 }
