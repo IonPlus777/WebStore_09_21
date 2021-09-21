@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Infrastructure.Middleware;
 
 namespace WebStore
 {
@@ -37,6 +38,7 @@ namespace WebStore
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseMiddleware<TestMiddleware>();
             //var logging = Configuration["Logging :LogLevel"];
             //var greetings = Configuration["Greetings"];
             app.UseEndpoints(endpoints =>
