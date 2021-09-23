@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<WebStore.Models.Employee>
 <div class="container">
     <h3>Сотрудники</h3>
     <hr />
@@ -10,8 +10,8 @@
         <a asp-controller="Employees" asp-action="Edit" class="btn btn-default">Создать 2</a>
     </p>
 
-    @if(Model.Any())
-    { 
+ @if(Model.Any())
+ { 
     <table class="table">
         <thead>
             <tr>
@@ -44,11 +44,11 @@
             }
         </tbody>
     </table>
-    }
-    else
-    {
+ }
+ else 
+ {
         <p>Сотрудников нет!</p>
-    }
+ }
     <p>
         <a asp-controller="Home" asp-action="Index" class="btn btn-default">Домой</a>
     </p>
