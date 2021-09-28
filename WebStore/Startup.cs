@@ -8,6 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Infrastructure.Conventions;
+using WebStore.Infrastructure.Middleware;
+using WebStore.Services;
+using WebStore.Services.Interfaces;
 
 namespace WebStore
 {
@@ -22,7 +26,11 @@ namespace WebStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
+            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
+            //services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
+
+            services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();
         }
 
@@ -37,6 +45,9 @@ namespace WebStore
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseMiddleware<TestMiddleware>();
+
+            app.UseWelcomePage("/welcome");
             //var logging = Configuration["Logging :LogLevel"];
             //var greetings = Configuration["Greetings"];
             app.UseEndpoints(endpoints =>
