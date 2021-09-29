@@ -95,6 +95,8 @@ namespace WebStore.Controllers
             if (id < 0) return BadRequest();
 
             var employee = _EmployeesData.GetById(id);
+
+            //if(ReferenceEquals(employee,null))
             if (employee is null)
                 return NotFound();
 
