@@ -41,6 +41,8 @@ namespace WebStore
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //app.UseStatusCodePages();
             //app.UseStaticFiles(new StaticFileOptions());
             app.UseStaticFiles();
             app.UseRouting();
@@ -50,6 +52,9 @@ namespace WebStore
             app.UseWelcomePage("/welcome");
             //var logging = Configuration["Logging :LogLevel"];
             //var greetings = Configuration["Greetings"];
+
+            //app.UseStatusCodePagesWithReExecute("/Home/Status/{0}");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/greetings", async context =>
