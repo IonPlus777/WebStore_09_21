@@ -28,7 +28,7 @@ namespace WebStore.Components
 
             foreach(var parent_section in parent_sections_views)
             {
-                var childs = sections.Where(s => s.Id == parent_section.Id);
+                var childs = sections.Where(s => s.ParentId == parent_section.Id);
 
                 foreach(var child_section in childs)
                     parent_section.ChildSection.Add(new SectionViewModel
