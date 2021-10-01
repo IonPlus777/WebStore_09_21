@@ -22,6 +22,7 @@ namespace WebStore.Controllers
         public IActionResult BlogSingle() => View();
 
         public IActionResult About() => View();
+        public IActionResult ContactUs() => View();
         public IActionResult Catalog() => View();
 
         //public IActionResult Status(string id) => Content($"Status code --- {id}");
