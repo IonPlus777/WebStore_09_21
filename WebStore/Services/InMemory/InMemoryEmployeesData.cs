@@ -7,21 +7,21 @@ using WebStore.Data;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
-namespace WebStore.Services
+namespace WebStore.Services.InMemory
 {
     public class InMemoryEmployeesData : IEmployeesData
     {
         private readonly ILogger<InMemoryEmployeesData> _Logger;
         private int _CurrentMaxId;
 
-        public InMemoryEmployeesData(ILogger<InMemoryEmployeesData> Logger) 
+        public InMemoryEmployeesData(ILogger<InMemoryEmployeesData> Logger)
         {
             _Logger = Logger;
             _CurrentMaxId = TestData.Employees.Max(e => e.Id);
         }
         public int Add(Employee employee)
         {
-            if(employee is null) throw new ArgumentNullException(nameof(employee));
+            if (employee is null) throw new ArgumentNullException(nameof(employee));
 
             if (TestData.Employees.Contains(employee)) return employee.Id;
 
@@ -49,7 +49,7 @@ namespace WebStore.Services
 
         public Employee GetById(int id)
         {
-            return TestData.Employees.SingleOrDefault(e=>e.Id ==id);
+            return TestData.Employees.SingleOrDefault(e => e.Id == id);
         }
 
         public void Update(Employee employee)

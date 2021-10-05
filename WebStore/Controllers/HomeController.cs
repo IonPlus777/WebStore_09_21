@@ -22,9 +22,20 @@ namespace WebStore.Controllers
         public IActionResult BlogSingle() => View();
 
         public IActionResult About() => View();
+        public IActionResult ContactUs() => View();
         public IActionResult Catalog() => View();
 
-        public IActionResult Status(string Code) => Content($"Status code - {Code}");
+        //public IActionResult Status(string id) => Content($"Status code --- {id}");
+
+        public IActionResult Status(string id)
+        {
+            switch (id)
+            {
+                default: return  Content($"Status code --- {id}");
+                case "404": return View("Error404");
+            }
+            
+        }
 
 
     }
