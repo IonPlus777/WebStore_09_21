@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
@@ -47,6 +48,8 @@ namespace WebStore.Data
 
         private async Task InitializeProductsAsync()
         {
+
+            var timer = Stopwatch.StartNew();
             if(_db.Sections.Any())
             {
                 _Logger.LogInformation("Инициализация БД информатией о товарах не требуется");
@@ -91,7 +94,7 @@ namespace WebStore.Data
                 await _db.SaveChangesAsync();
                 await _db.Database.CommitTransactionAsync();
             }
-            _Logger.LogInformation("Zapis tovarov vipolnena uspeshno");
+            _Logger.LogInformation("Zapis tovarov vipolnena uspeshno za {0} ms",timer.Elapsed.TotalMilliseconds);
         }
        
     }
