@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities.Identity;
 using WebStore.ViewModels;
+using WebStore.ViewModels.Identity;
 
 namespace WebStore.Controllers
 {
@@ -46,12 +47,42 @@ namespace WebStore.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             return View(Model);
-        } 
+        }
         #endregion
 
-        public IActionResult Login() => View();
+        #region login
+        public IActionResult Login(string ReturnUrl) => View(new LoginViewModel { ReturnUrl = ReturnUrl });
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel Model)
+        {
+            if (!ModelState.IsValid) return View(Model);
 
-            public IActionResult Logout() => RedirectToAction("Index","Home");
+            var login_result = await _SignInManager.PasswordSignInAsync(
+                Model.UserName,
+                Model.Password,
+                Model.RememberMe,
+                false);
+
+            if (login_result.Succeeded)
+            {
+                //return Redirect(Model.ReturnUrl); Ne bezopasno!
+                //if (Url.IsLocalUrl(Model.ReturnUrl))
+                //    return Redirect(Model.ReturnUrl);
+                //return RedirectToAction("Index", "Home");
+                return LocalRedirect(Model.ReturnUrl ?? "/");
+            }
+            ModelState.AddModelError("", "Ошибка ввода имени пользователя или пароля");
+
+            return View(Model);
+
+        }
+        #endregion
+
+        public async Task<IActionResult> Logout()
+        {
+            await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         public IActionResult AccessDenied() => View();
         

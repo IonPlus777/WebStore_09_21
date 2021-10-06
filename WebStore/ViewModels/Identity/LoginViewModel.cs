@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebStore.ViewModels.Identity
 {
-    public class RegisterUserViewModel
+    public class LoginViewModel
     {
         [Required]
         [Display(Name = "Имя пользователя")]
@@ -15,10 +16,9 @@ namespace WebStore.ViewModels.Identity
         [Display(Name = "Пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required]
-        [Display(Name = "Подтверждение пароля")]
-        [DataType(DataType.Password)]
-        [Compare(nameof(Password))]
-        public string PasswordConfirm { get; set; }
+        [Display(Name = "Запомнить меня")]
+        public bool RememberMe { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public string ReturnUrl { get; set; }
     }
 }
