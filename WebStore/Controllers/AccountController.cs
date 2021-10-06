@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities.Identity;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -19,7 +20,11 @@ namespace WebStore.Controllers
             _SignInManager = SignInManager;
         }
       
-            public IActionResult Register() => View();
+            public IActionResult Register() => View(new RegisterUserViewModel());
+        public IActionResult Register(RegisterUserViewModel Model)
+        {
+            return RedirectToAction("Index", "Home");
+        }
 
             public IActionResult Login() => View();
 
