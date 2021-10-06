@@ -19,8 +19,10 @@ namespace WebStore.Controllers
             _UserManager = UserManager;
             _SignInManager = SignInManager;
         }
-      
-            public IActionResult Register() => View(new RegisterUserViewModel());
+
+        #region Register
+        public IActionResult Register() => View(new RegisterUserViewModel());
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel Model)
         {
@@ -31,22 +33,23 @@ namespace WebStore.Controllers
                 UserName = Model.UserName,
             };
 
-            var register_result = await  _UserManager.CreateAsync(user, Model.Password);
-            if(register_result.Succeeded)
+            var register_result = await _UserManager.CreateAsync(user, Model.Password);
+            if (register_result.Succeeded)
             {
                 await _SignInManager.SignInAsync(user, false);
 
 
                 return RedirectToAction("Index", "Home");
             }
-            foreach(var error in register_result.Errors)
+            foreach (var error in register_result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
             }
             return View(Model);
-        }
+        } 
+        #endregion
 
-            public IActionResult Login() => View();
+        public IActionResult Login() => View();
 
             public IActionResult Logout() => RedirectToAction("Index","Home");
 
