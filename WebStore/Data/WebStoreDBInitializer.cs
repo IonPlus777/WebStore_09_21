@@ -139,7 +139,9 @@ namespace WebStore.Data
             async Task CheckRole(string RoleName)
             { 
                 if(await _RoleManager.RoleExistsAsync(RoleName))
+                { 
                 _Logger.LogInformation("Role exist{0}",RoleName);
+                }
                 else
                 {
                     _Logger.LogInformation("Role {0} don't exist",RoleName);
@@ -150,7 +152,7 @@ namespace WebStore.Data
             await CheckRole(Role.Administrators);
             await CheckRole(Role.Users);
 
-            if(await _RoleManager.FindByNameAsync(User.Administrator)is null)
+            if(await _RoleManager.FindByNameAsync(User.Administrator) is null)
             {
                 _Logger.LogInformation("User {0} don't exist",User.Administrator);
                 var admin = new User
@@ -161,6 +163,7 @@ namespace WebStore.Data
                 if(creation_result.Succeeded)
                 {
                     _Logger.LogInformation("User {0} is created", User.Administrator);
+
                     await _UserManager.AddToRoleAsync(admin, Role.Administrators);
 
                     _Logger.LogInformation("Role of User {0} is created {1}", User.Administrator, Role.Administrators);
@@ -176,6 +179,7 @@ namespace WebStore.Data
                 _Logger.LogInformation("The donnes ofsystem Identity are created {0} mc", timer.Elapsed.TotalMilliseconds);
 
             }
+            
 
         }
        
