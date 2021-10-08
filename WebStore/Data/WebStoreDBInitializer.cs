@@ -22,6 +22,7 @@ namespace WebStore.Data
             WebStoreDB db,
             UserManager<User> UserManager,
             RoleManager<Role> RoleManager,
+            //IPasswordHasher<User> Hasher,
             ILogger<WebStoreDBInitializer> Logger)
         {
             _db = db;
