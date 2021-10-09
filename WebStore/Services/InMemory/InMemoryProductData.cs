@@ -29,7 +29,13 @@ namespace WebStore.Services.InMemory
             return query;
         }
 
+        public Product GetProductById(int Id)
+        {
+            return TestData.Products.FirstOrDefault(p=>p.Id ==Id);
+        }
 
+        public Section GetSectionById(int Id) => TestData.Sections.FirstOrDefault(s => s.Id == Id);
 
+        public Brand GetBrandById(int Id) => TestData.Brands.FirstOrDefault(s => s.Id == Id);
     }
 }
