@@ -4,3 +4,11 @@
 <script src="~/js/price-range.js"></script>
 <script src="~/js/jquery.prettyPhoto.js"></script>
 <script src="~/js/main.js"></script>
+
+<environment include="Developement">
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Developement">
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>

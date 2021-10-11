@@ -15,6 +15,7 @@ using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
+using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
@@ -80,6 +81,7 @@ namespace WebStore
             //services.AddSingleton<IProductData, InMemoryProductData>();
 
             services.AddScoped<IProductData, SqlProductData>();
+            services.AddScoped<ICartService, InCookiesCartService>();
 
 
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
