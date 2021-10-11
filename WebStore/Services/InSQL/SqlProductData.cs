@@ -34,7 +34,7 @@ namespace WebStore.Services.InSQL
             //if (Filter?.SectionId != null)
             //    query = query.Where(p => p.SectionId == Filter.SectionId);
 
-            if(Filter?.Ids.Length > 0)
+            if(Filter?.Ids?.Length > 0)
             {
                 query = query.Where(product => Filter.Ids.Contains(product.Id));
             }
