@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,19 +23,74 @@ namespace WebStore.Services.InSQL
             _UserManager = UserManager;
         }
 
-        public Task<Order> CreateOrder(string UserName, CartViewModel Cart, OrderViewModel OrderModel)
+        public async Task<IEnumerable<Order>> GetUserOrders(string UserName)
         {
-            throw new NotImplementedException();
+            var orders = await _db.Orders
+                .Include(o=> o.User)
+                .Include(o=> o.Items)
+                .ThenInclude(o=>o.Product)
+                .Where(o=> o.User.UserName == UserName)
+                .ToArrayAsync();
+            return orders;
         }
 
-        public Task<Order> GetOrderById(int id)
+        public async Task<Order> GetOrderById(int id)
         {
-            throw new NotImplementedException();
+            var order = await _db.Orders
+                .Include(o => o.User)
+                .Include(o => o.Items)
+                .ThenInclude(o => o.Product)
+                .FirstOrDefaultAsync(o=>o.Id == id);
+            return order;
+        }
+        public async Task<Order> CreateOrder(string UserName, CartViewModel Cart, OrderViewModel OrderModel)
+        {
+            var user = await _UserManager.FindByNameAsync(UserName).ConfigureAwait(false);
+
+            if (user is null)
+                throw new InvalidOperationException($"Пользователь {UserName} не найден");
+
+            await using var transaction = await _db.Database.BeginTransactionAsync();
+
+            var order = new Order
+            {
+                User = user,
+                Address = OrderModel.Address,
+                Phone = OrderModel.Phone,
+                Description = OrderModel.Description,
+            };
+
+            var product_ids = Cart.Items.Select(item => item.Product.Id).ToArray();
+
+            var cart_products = await _db.Products
+                .Where(p => product_ids.Contains(p.Id))
+                .ToArrayAsync();
+
+            order.Items = Cart.Items.Join(
+                cart_products,
+                cart_item => cart_item.Product.Id,
+                cart_product => cart_product.Id,
+                (cart_item, cart_product) => new OrderItem
+                {
+                    Order = order,
+                    Product = cart_product,
+                    Price = cart_product.Price,// mozno dobavit skidku tut
+                    Quantity = cart_item.Quantity,
+                }).ToArray();
+
+            await _db.Orders.AddAsync(order);
+            //await _db.Set<OrderItem>().AddRangeAsync(order.Items); //net neobhodimosti!
+
+            await _db.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return order;
+
         }
 
-        public Task<IEnumerable<Order>> GetUserOrders(string User)
-        {
-            throw new NotImplementedException();
-        }
+        
+
+        
     }
 }
