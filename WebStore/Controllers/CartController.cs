@@ -56,8 +56,9 @@ namespace WebStore.Controllers
             return RedirectToAction(nameof(OrderConfirmed),new { Id = order.Id });
         }
 
-        public IActionResult OrderConfirmed(int id)
+        public IActionResult OrderConfirmed(int Id)
         {
+            ViewBag.OrderId = Id;
             return View();
         }
 
