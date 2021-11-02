@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<UserOrderViewModel>
 @{
     ViewBag.Title = "Профиль пользователя";
+    Layout = "_UserProfileLayout";
 }
 
-<div class="container">
+
     <table class="table">
         <thead>
             <tr>
@@ -19,7 +20,7 @@
             @{ var i = 1;}
             @foreach (var order in Model)
             {
-               <tr>
+                <tr>
                 <td>@(i++)</td>
                 <td>@order.Date.ToString("dd/MM/yy HH:mm")</td>
                 <td>@order.Address</td>
@@ -30,4 +31,4 @@
             }
         </tbody>
     </table>
-</div>
+
