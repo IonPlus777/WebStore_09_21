@@ -82,6 +82,7 @@ namespace WebStore
 
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
+            services.AddScoped<IOrderService, SqlOrderService>();
 
 
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
@@ -124,6 +125,10 @@ namespace WebStore
                     await context.Response.WriteAsync(Configuration["Greetings"]);
                 });
 
+                endpoints.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
                 //endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllerRoute(
                     "default",

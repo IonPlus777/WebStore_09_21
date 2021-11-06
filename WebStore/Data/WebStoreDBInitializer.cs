@@ -153,7 +153,7 @@ namespace WebStore.Data
             await CheckRole(Role.Administrators);
             await CheckRole(Role.Users);
 
-            if(await _RoleManager.FindByNameAsync(User.Administrator) is null)
+            if(await _UserManager.FindByNameAsync(User.Administrator) is null)
             {
                 _Logger.LogInformation("User {0} don't exist",User.Administrator);
                 var admin = new User
